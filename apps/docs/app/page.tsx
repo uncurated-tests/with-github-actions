@@ -1,6 +1,15 @@
 import Image from "next/image";
 import { Button } from "@repo/ui/button";
+import { foo } from "@repo/foo/entry";
 import styles from "./page.module.css";
+
+console.log(foo);
+
+if (!process.env.SECRETY_SECRET) {
+  throw new Error("SECRETY_SECRET is not set");
+}
+
+console.log(process.env.SECRETY_SECRET);
 
 export default function Home() {
   return (

@@ -1,0 +1,14 @@
+{
+  "name": "@repo/foo",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./entry": {
+      "types": "./src/foo.ts",
+      "default": "./dist/foo.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}

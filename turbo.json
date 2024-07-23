@@ -5,7 +5,13 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "env": ["SECRETY_SECRET"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "vercel-build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".vercel/**"]
     },
     "lint": {
       "dependsOn": ["^lint"]
