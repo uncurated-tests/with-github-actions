@@ -41,14 +41,15 @@ jobs:
 
       - name: Build
         run: |
-          # Pull environment info
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           # Builds the dependencies of the docs target
           # https://turbo.build/repo/docs/reference/run#microsyntaxes-for-filtering
           # We need to do this since  `vc build` does not currently
           # follow the package or task graph (like `turbo`)
           turbo build --filter=docs^...
-          cd apps/docs && vc build --token=${{ secrets.VERCEL_TOKEN }}
+          cd apps/docs
+          # Pull environment info
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy
         run: vc deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
