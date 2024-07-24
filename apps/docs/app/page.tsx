@@ -6,7 +6,9 @@ import styles from "./page.module.css";
 console.log(foo);
 
 if (!process.env.SECRETY_SECRET) {
-  throw new Error("SECRETY_SECRET is not set");
+  throw new Error(
+    "SECRETY_SECRET is not set. It is either not set on your Vercel projects or is not being pulled in the GitHub Actions workflow.",
+  );
 }
 
 console.log(process.env.SECRETY_SECRET);

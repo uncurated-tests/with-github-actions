@@ -10,5 +10,9 @@
   },
   "scripts": {
     "build": "tsc"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "^5.4.5"
   }
 }
