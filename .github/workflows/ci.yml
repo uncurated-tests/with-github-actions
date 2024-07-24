@@ -2,6 +2,7 @@ name: CI
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  # For Remote Caching
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
@@ -46,7 +47,7 @@ jobs:
           # We need to do this since  `vc build` does not currently
           # follow the package or task graph (like `turbo`)
           turbo build --filter=docs^...
-          cd apps/docs
+          # cd apps/docs
           # Pull environment info
           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
