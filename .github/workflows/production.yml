@@ -46,7 +46,7 @@ jobs:
           turbo build --filter=docs^...
           # Pull environment info
           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy
         run: |
