@@ -63,4 +63,8 @@ jobs:
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy
-        run: vc deploy --prebuilt --prod=${{ steps.environment.outputs.environment == 'production' }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if ${{ steps.environment.outputs.environment == 'production' }}; then
+            vercel deploy --prebuild --prod --token=${{ secrets.VERCEL_TOKEN }}
+          else
+            vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}

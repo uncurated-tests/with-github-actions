@@ -11,8 +11,6 @@ if (!process.env.SECRETY_SECRET) {
 	);
 }
 
-console.log(process.env.SECRETY_SECRET);
-
 export default function Home() {
 	return (
 		<div className={styles.page}>
