@@ -46,7 +46,7 @@ jobs:
           # follow the package or task graph (like Turborepo can).
           turbo build --filter=docs^...
           # Pull environment info
-          vercel pull --cwd=apps/docs --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy
