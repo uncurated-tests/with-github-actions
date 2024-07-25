@@ -21,7 +21,7 @@ jobs:
       - name: Check if merged to main
         id: environment
         run: |
-          if [[ ${{ github.event.pull_request.merged == true }} ]]; then
+          if ${{ github.event.pull_request.merged }}; then
             echo "environment=production" >> $GITHUB_OUTPUT 
           else
             echo "environment=preview" >> $GITHUB_OUTPUT
