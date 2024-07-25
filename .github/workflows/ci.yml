@@ -10,15 +10,26 @@ on:
   push:
     branches: ["main"]
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, closed]
 
 jobs:
   build:
     name: Build and Deploy
-    timeout-minutes: 15
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check if merged to main
+        id: is_production
+        run: |
+          if [[ "${{ github.event.pull_request.merged }}" ]]; then
+            echo "environment=production" >> $GITHUB_OUTPUT 
+          else
+            echo "environment=preview" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Print environment
+        run: echo ${{ steps.is_production.outputs.environment }}
+
       - name: Check out code
         uses: actions/checkout@v4
         with:
@@ -48,8 +59,8 @@ jobs:
           # follow the package or task graph (like Turborepo can).
           turbo build --filter=docs^...
           # Pull environment info
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          vercel pull --yes --environment=${{ steps.is_production.outputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --environment=${{ steps.is_production.outputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy
-        run: vc deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: vc deploy --prebuilt --environment=${{ steps.is_production.outputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
