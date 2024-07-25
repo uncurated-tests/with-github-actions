@@ -19,9 +19,8 @@ jobs:
 
     steps:
       - name: Check if merged to main
-        id: is_production
+        id: environment
         run: |
-          echo ${{ github.event.pull_request.merged }}
           if [[ ${{ github.event.pull_request.merged == true }} ]]; then
             echo "environment=production" >> $GITHUB_OUTPUT 
           else
@@ -29,7 +28,7 @@ jobs:
           fi
 
       - name: Print environment
-        run: echo ${{ steps.is_production.outputs.environment }}
+        run: echo ${{ steps.environment.outputs.environment }}
 
       - name: Check out code
         uses: actions/checkout@v4
@@ -60,8 +59,8 @@ jobs:
           # follow the package or task graph (like Turborepo can).
           turbo build --filter=docs^...
           # Pull environment info
-          vercel pull --yes --environment=${{ steps.is_production.outputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --environment=${{ steps.is_production.outputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
+          vercel pull --yes --environment=${{ steps.environment.outputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --environment=${{ steps.environment.outputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy
-        run: vc deploy --prebuilt --environment=${{ steps.is_production.outputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: vc deploy --prebuilt --prod=${{ steps.environment.outputs.environment == 'production' }} --token=${{ secrets.VERCEL_TOKEN }}
